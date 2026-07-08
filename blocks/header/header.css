@@ -79,26 +79,76 @@ header nav .nav-social a:hover {
   color: rgb(255 255 255 / 75%);
 }
 
-/* ---- Row 1: main header ---- */
+/* ---- Row 1: main header (left nav | logo | right nav | tools) ---- */
 header nav .nav-main {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 25px 24px;
-  gap: 20px;
-  max-width: 1200px;
+  justify-content: center;
+  padding: 12px 24px;
+  gap: 16px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
+/* the two nav groups flank the centered logo */
+header nav .nav-sections-left {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1 1 0;
+}
+
+header nav .nav-sections-right {
+  display: flex;
+  justify-content: flex-start;
+  flex: 1 1 0;
+}
+
+header nav .nav-brand {
+  flex: 0 0 auto;
+}
+
 header nav .nav-brand img {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   display: block;
 }
 
 header nav .nav-brand a {
   display: inline-block;
   line-height: 0;
+}
+
+/* tools: search + menu toggle on the far right */
+header nav .nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+header nav .nav-search-toggle,
+header nav .nav-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  color: #002c42;
+}
+
+header nav .nav-menu-toggle {
+  border: 1px solid #d0d5da;
+  border-radius: 2px;
+}
+
+header nav .nav-search-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: currentcolor;
 }
 
 /* ---- Main navigation ---- */
@@ -128,6 +178,18 @@ header nav .nav-sections > ul > li > a {
 
 header nav .nav-sections > ul > li > a:hover {
   color: #0a6ebd;
+}
+
+/* dropdown caret after top-level items that have a submenu */
+header nav .nav-sections > ul > li.nav-drop > a::after {
+  content: '';
+  display: inline-block;
+  margin-left: 6px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentcolor;
+  border-bottom: 1.5px solid currentcolor;
+  transform: translateY(-2px) rotate(45deg);
 }
 
 /* dropdown panels (nested ul) */
@@ -229,9 +291,23 @@ header nav .nav-overlay {
 
 /* ---- Mobile layout ---- */
 @media (width < 900px) {
-  header nav .nav-hamburger {
-    display: block;
-    order: 3;
+  header nav .nav-main {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  /* hide the desktop search on mobile; keep the menu toggle */
+  header nav .nav-search-toggle {
+    display: none;
+  }
+
+  /* logo stays left, menu toggle right */
+  header nav .nav-brand {
+    order: 1;
+  }
+
+  header nav .nav-tools {
+    order: 2;
   }
 
   header nav[aria-expanded="true"] .nav-overlay {
@@ -251,27 +327,22 @@ header nav .nav-overlay {
     justify-content: space-around;
   }
 
-  /* main nav becomes a left slide-in drawer (full-width on phones) */
-  header nav .nav-sections {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: #fff;
-    box-shadow: 2px 0 12px rgb(0 0 0 / 20%);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    overflow-y: auto;
-    z-index: 100;
-    padding-top: 16px;
+  /* both nav groups drop to full-width stacked rows, hidden until expanded */
+  header nav .nav-sections-left,
+  header nav .nav-sections-right {
+    order: 3;
+    flex-basis: 100%;
+    display: none;
+    justify-content: flex-start;
   }
 
-  header nav[aria-expanded="true"] .nav-sections {
-    transform: translateX(0);
+  header nav[aria-expanded="true"] .nav-sections-left,
+  header nav[aria-expanded="true"] .nav-sections-right {
+    display: block;
   }
 
-  header nav .nav-sections > ul {
+  header nav .nav-sections-left > ul,
+  header nav .nav-sections-right > ul {
     flex-direction: column;
     align-items: stretch;
     gap: 0;
@@ -297,7 +368,7 @@ header nav .nav-overlay {
     padding-left: 12px;
   }
 
-  /* hamburger -> cross animation */
+  /* hamburger -> cross animation on the menu toggle */
   header nav[aria-expanded="true"] .nav-hamburger-icon {
     background-color: transparent;
   }

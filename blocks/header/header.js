@@ -87,7 +87,7 @@ export default async function decorate(block) {
   // Row 0: topbar (language + social)
   if (topbarSrc) nav.append(buildTopbar(topbarSrc));
 
-  // Row 1: main header (logo + nav + hamburger)
+  // Row 1: main header — left nav group, centered logo, right nav group, tools
   const main = document.createElement('div');
   main.className = 'nav-main';
 
@@ -97,7 +97,6 @@ export default async function decorate(block) {
     const logoLink = logoSrc.querySelector('a');
     if (logoLink) brand.append(logoLink.cloneNode(true));
   }
-  main.append(brand);
 
   const navSections = document.createElement('div');
   navSections.className = 'nav-sections';
@@ -106,14 +105,42 @@ export default async function decorate(block) {
     if (ul) navSections.append(ul.cloneNode(true));
   }
   markDropdowns(navSections);
-  main.append(navSections);
 
-  // hamburger for mobile
-  const hamburger = document.createElement('div');
-  hamburger.className = 'nav-hamburger';
-  hamburger.innerHTML = '<button type="button" aria-controls="nav" aria-label="Open navigation"><span class="nav-hamburger-icon"></span></button>';
-  main.append(hamburger);
+  // Split top-level items around the "home" item (empty/"/" link, e.g. Acasă),
+  // which is represented by the centered logo.
+  const sourceUl = navSections.querySelector(':scope > ul');
+  const topItems = sourceUl ? [...sourceUl.children].filter((li) => li.tagName === 'LI') : [];
+  const homeIdx = topItems.findIndex((li) => {
+    const href = li.querySelector(':scope > a')?.getAttribute('href');
+    return href === '/' || (li.textContent || '').trim().toLowerCase().startsWith('acasă');
+  });
+  const splitAt = homeIdx >= 0 ? homeIdx : Math.ceil(topItems.length / 2);
 
+  const leftGroup = document.createElement('div');
+  leftGroup.className = 'nav-sections nav-sections-left';
+  const rightGroup = document.createElement('div');
+  rightGroup.className = 'nav-sections nav-sections-right';
+  const leftUl = document.createElement('ul');
+  const rightUl = document.createElement('ul');
+  topItems.forEach((li, i) => {
+    if (i === homeIdx) return; // becomes the centered logo
+    (i < splitAt ? leftUl : rightUl).append(li);
+  });
+  leftGroup.append(leftUl);
+  rightGroup.append(rightUl);
+
+  // tools: search icon + menu toggle (desktop), hamburger (mobile)
+  const tools = document.createElement('div');
+  tools.className = 'nav-tools';
+  tools.innerHTML = `
+    <button type="button" class="nav-search-toggle" aria-label="Search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14Z"/></svg>
+    </button>
+    <button type="button" class="nav-menu-toggle" aria-controls="nav" aria-label="Toggle menu">
+      <span class="nav-hamburger-icon"></span>
+    </button>`;
+
+  main.append(leftGroup, brand, rightGroup, tools);
   nav.append(main);
 
   // backdrop overlay for the mobile drawer
@@ -121,15 +148,15 @@ export default async function decorate(block) {
   overlay.className = 'nav-overlay';
   nav.append(overlay);
 
-  // Dropdown interaction: click on top-level (and subgroup) toggles expansion.
-  navSections.querySelectorAll('.nav-drop').forEach((li) => {
+  // Dropdown interaction across both nav groups.
+  main.querySelectorAll('.nav-drop').forEach((li) => {
     const link = li.querySelector(':scope > a');
     if (link) {
       link.addEventListener('click', (e) => {
         if (link.getAttribute('href') === '#' || !isDesktop.matches) {
           e.preventDefault();
           const expanded = li.getAttribute('aria-expanded') === 'true';
-          if (isDesktop.matches) closeAllDropdowns(navSections);
+          if (isDesktop.matches) closeAllDropdowns(main);
           li.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         }
       });
@@ -137,7 +164,7 @@ export default async function decorate(block) {
   });
 
   // subgroup toggles (level 2 headings that expand level 3)
-  navSections.querySelectorAll('.nav-subgroup > a').forEach((link) => {
+  main.querySelectorAll('.nav-subgroup > a').forEach((link) => {
     link.addEventListener('click', (e) => {
       if (link.getAttribute('href') === '#' || !isDesktop.matches) {
         e.preventDefault();
@@ -153,7 +180,8 @@ export default async function decorate(block) {
     document.body.style.overflowY = '';
   };
 
-  hamburger.addEventListener('click', () => {
+  const menuToggle = tools.querySelector('.nav-menu-toggle');
+  menuToggle.addEventListener('click', () => {
     const expanded = nav.getAttribute('aria-expanded') === 'true';
     nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
     document.body.style.overflowY = expanded ? '' : 'hidden';
@@ -163,14 +191,14 @@ export default async function decorate(block) {
 
   // close desktop dropdowns when clicking outside
   document.addEventListener('click', (e) => {
-    if (isDesktop.matches && !nav.contains(e.target)) closeAllDropdowns(navSections);
+    if (isDesktop.matches && !nav.contains(e.target)) closeAllDropdowns(main);
   });
 
   // reset state when crossing the breakpoint
   isDesktop.addEventListener('change', () => {
     nav.setAttribute('aria-expanded', 'false');
     document.body.style.overflowY = '';
-    closeAllDropdowns(navSections);
+    closeAllDropdowns(main);
   });
 
   nav.setAttribute('aria-expanded', 'false');
