@@ -207,4 +207,15 @@ export default async function decorate(block) {
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
   block.append(navWrapper);
+
+  // decorative green-wave banner below the header
+  const banner = document.createElement('div');
+  banner.className = 'nav-wave-banner';
+  const bannerImg = document.createElement('img');
+  bannerImg.src = '/content/images/romgaz-wave-banner.png';
+  bannerImg.alt = '';
+  bannerImg.setAttribute('aria-hidden', 'true');
+  bannerImg.loading = 'lazy';
+  banner.append(bannerImg);
+  block.append(banner);
 }

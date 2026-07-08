@@ -79,6 +79,19 @@ header nav .nav-social a:hover {
   color: rgb(255 255 255 / 75%);
 }
 
+/* ---- Decorative wave banner below the header ---- */
+header .nav-wave-banner {
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+}
+
+header .nav-wave-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* ---- Row 1: main header (left nav | logo | right nav | tools) ---- */
 header nav .nav-main {
   display: flex;
