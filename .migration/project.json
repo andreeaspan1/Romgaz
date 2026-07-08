@@ -1,0 +1,10 @@
+{
+  "type": "doc",
+  "sites": {
+    "romgaz": {
+      "previewOrg": "andreeaspan1",
+      "previewSite": "romgaz",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  }
+}

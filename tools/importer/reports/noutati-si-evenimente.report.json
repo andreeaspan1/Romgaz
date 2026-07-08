@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://romgaz.ro/noutati-si-evenimente",
+  "path": "noutati-si-evenimente",
+  "timestamp": "2026-07-08T11:02:54.331Z",
+  "title": "Noutăți și evenimente | Romgaz",
+  "template": "news-events-hub",
+  "blocks": [
+    "cards-press"
+  ]
+}

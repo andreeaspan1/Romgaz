@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "projectType": "doc"
+  },
+  "templates": [
+    {
+      "name": "press-releases-listing",
+      "urls": [
+        "https://romgaz.ro/comunicate-de-presa"
+      ],
+      "representativeUrl": "https://romgaz.ro/comunicate-de-presa",
+      "coverageGaps": [],
+      "description": "Press releases listing page - chronological list of dated news items with title, summary, and PDF link. Includes a year filter dropdown and pagination.",
+      "blocks": [
+        {
+          "name": "cards-press",
+          "instances": [
+            "#page-main-content .view-content-wrap"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Press releases listing",
+          "selector": [
+            "#page-main-content"
+          ],
+          "style": "press-releases",
+          "blocks": [
+            "cards-press"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "news-events-hub",
+      "urls": [
+        "https://romgaz.ro/noutati-si-evenimente"
+      ],
+      "representativeUrl": "https://romgaz.ro/noutati-si-evenimente",
+      "coverageGaps": [],
+      "description": "News and events listing page - dynamic Drupal listing of dated documents (timestamp + linked PDF title), with a year filter dropdown.",
+      "blocks": [
+        {
+          "name": "cards-press",
+          "instances": [
+            "#page-main-content .view-content-wrap",
+            "#page-main-content .item-list"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "News and events listing",
+          "selector": [
+            "#page-main-content"
+          ],
+          "style": "news-events",
+          "blocks": [
+            "cards-press"
+          ],
+          "defaultContent": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,20 +1,36 @@
-import { getMetadata } from '../../scripts/aem.js';
-import { loadFragment } from '../fragment/fragment.js';
+async function fetchFooter(footerPath) {
+  let resp = await fetch('/content/footer.plain.html');
+  if (!resp.ok) resp = await fetch(`${footerPath}.plain.html`);
+  if (!resp.ok) return null;
+  const html = await resp.text();
+  const tpl = document.createElement('div');
+  tpl.innerHTML = html;
+  return tpl;
+}
 
-/**
- * loads and decorates the footer
- * @param {Element} block The footer block element
- */
 export default async function decorate(block) {
-  // load footer as fragment
-  const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-  const fragment = await loadFragment(footerPath);
-
-  // decorate footer DOM
+  const source = await fetchFooter('/footer');
   block.textContent = '';
+  if (!source) return;
+
   const footer = document.createElement('div');
-  while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
+  footer.className = 'footer-inner';
+
+  const sections = [...source.querySelectorAll(':scope > div')];
+  // First two sections are content columns; the rest (copyright) sit below.
+  const columns = document.createElement('div');
+  columns.className = 'footer-columns';
+
+  sections.forEach((section, i) => {
+    if (i < sections.length - 1) {
+      section.classList.add('footer-column');
+      columns.append(section);
+    } else {
+      section.classList.add('footer-copyright');
+      footer.append(columns);
+      footer.append(section);
+    }
+  });
 
   block.append(footer);
 }

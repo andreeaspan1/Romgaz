@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://romgaz.ro/comunicate-de-presa",
+  "path": "comunicate-de-presa",
+  "timestamp": "2026-07-08T11:02:41.128Z",
+  "title": "Comunicate de presă | Romgaz",
+  "template": "press-releases-listing",
+  "blocks": [
+    "cards-press"
+  ]
+}

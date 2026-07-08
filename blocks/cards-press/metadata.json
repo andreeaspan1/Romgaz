@@ -1,0 +1,40 @@
+{
+  "variantName": "cards-press",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-07-08T10:50:25.613Z",
+  "sourceContext": {
+    "originUrl": "https://romgaz.ro/comunicate-de-presa",
+    "originPage": "press releases listing (comunicate-de-presa)",
+    "blockPosition": "main"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "press-releases",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "image + date + heading (linked title) + summary + PDF CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "press release listings",
+      "news/announcement listings",
+      "dated document/report listings with a downloadable file",
+      "chronological article lists with a title, summary and link"
+    ],
+    "notSuitableFor": [
+      "product grids with large hero imagery",
+      "team member or testimonial grids",
+      "layouts requiring interactive tabs or accordions"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/comunicate-de-presa", "/noutati-si-evenimente"],
+    "reuseCount": 2,
+    "lastUsed": "2026-07-08T10:53:16.801Z"
+  }
+}
