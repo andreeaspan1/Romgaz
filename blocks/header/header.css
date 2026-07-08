@@ -85,8 +85,8 @@ header nav .nav-main {
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
-  gap: 16px;
-  max-width: 1280px;
+  gap: 32px;
+  max-width: 1320px;
   margin: 0 auto;
 }
 
@@ -158,7 +158,7 @@ header nav .nav-sections > ul {
   padding: 0;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 28px;
 }
 
 header nav .nav-sections > ul > li {
@@ -167,8 +167,8 @@ header nav .nav-sections > ul > li {
 
 header nav .nav-sections > ul > li > a {
   display: block;
-  padding: 10px 12px;
-  font-size: 14px;
+  padding: 10px 4px;
+  font-size: 17px;
   font-weight: 700;
   text-transform: uppercase;
   color: #002c42;
