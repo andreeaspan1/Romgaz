@@ -85,7 +85,7 @@ header nav .nav-social a:hover {
 header .nav-wave-banner {
   position: relative;
   width: 100%;
-  height: 90px;
+  height: 56px;
   line-height: 0;
   overflow: hidden;
 }
@@ -99,7 +99,7 @@ header .nav-wave-banner img {
 
 @media (width < 900px) {
   header .nav-wave-banner {
-    height: 64px;
+    height: 44px;
   }
 }
 
@@ -110,7 +110,7 @@ header .nav-wave-title {
   transform: translate(-50%, -50%);
   color: #203d88;
   font-family: Roboto, sans-serif;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 900;
   line-height: 1.1;
   text-align: center;
