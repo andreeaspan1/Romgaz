@@ -10,16 +10,16 @@
 
 .year-filter .year-filter-label {
   font-family: Roboto, sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
   color: #203d88;
 }
 
 .year-filter .year-filter-select {
-  min-width: 140px;
-  padding: 8px 12px;
+  min-width: 110px;
+  padding: 6px 10px;
   font-family: Roboto, sans-serif;
-  font-size: 15px;
+  font-size: 13px;
   color: #203d88;
   background-color: #fff;
   border: 1px solid #c7ccd1;
