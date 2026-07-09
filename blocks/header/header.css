@@ -81,6 +81,7 @@ header nav .nav-social a:hover {
 
 /* ---- Decorative wave banner below the header ---- */
 header .nav-wave-banner {
+  position: relative;
   width: 100%;
   line-height: 0;
   overflow: hidden;
@@ -90,6 +91,28 @@ header .nav-wave-banner img {
   width: 100%;
   height: auto;
   display: block;
+}
+
+header .nav-wave-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #203d88;
+  font-family: Roboto, sans-serif;
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1.1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (width < 900px) {
+  header .nav-wave-title {
+    font-size: 24px;
+    white-space: normal;
+    width: 90%;
+  }
 }
 
 /* ---- Row 1: main header (left nav | logo | right nav | tools) ---- */

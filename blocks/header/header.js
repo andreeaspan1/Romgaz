@@ -208,7 +208,7 @@ export default async function decorate(block) {
   navWrapper.append(nav);
   block.append(navWrapper);
 
-  // decorative green-wave banner below the header
+  // decorative green-wave banner below the header, with the page title overlaid
   const banner = document.createElement('div');
   banner.className = 'nav-wave-banner';
   const bannerImg = document.createElement('img');
@@ -217,5 +217,15 @@ export default async function decorate(block) {
   bannerImg.setAttribute('aria-hidden', 'true');
   bannerImg.loading = 'lazy';
   banner.append(bannerImg);
+
+  // page title (text before " | " in document.title), skipped on the homepage
+  const pageTitle = (document.title || '').split('|')[0].trim();
+  if (pageTitle && window.location.pathname !== '/') {
+    const titleEl = document.createElement('span');
+    titleEl.className = 'nav-wave-title';
+    titleEl.textContent = pageTitle;
+    banner.append(titleEl);
+  }
+
   block.append(banner);
 }
