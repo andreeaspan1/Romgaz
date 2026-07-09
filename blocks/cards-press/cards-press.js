@@ -79,6 +79,21 @@ export default function decorate(block) {
       body.className = 'cards-press-card-body';
       while (bodyCell.firstElementChild) body.append(bodyCell.firstElementChild);
       li.append(body);
+
+      // PDF link (last paragraph): label it with the article title and fix its
+      // target. Relative Drupal file paths (/sites/default/files/...) 404 on the
+      // migrated site, so resolve them against the original romgaz.ro origin.
+      const title = body.querySelector('h3');
+      const pdfLink = body.querySelector('p:last-child a[href]');
+      if (pdfLink) {
+        if (title) pdfLink.textContent = title.textContent.trim();
+        const href = pdfLink.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          pdfLink.href = `https://romgaz.ro${href}`;
+        }
+        pdfLink.setAttribute('target', '_blank');
+        pdfLink.setAttribute('rel', 'noopener');
+      }
     }
 
     ul.append(li);
