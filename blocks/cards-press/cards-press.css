@@ -2,26 +2,132 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  display: block;
 }
 
 .cards-press > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 28px 8px;
+  border-bottom: 1px solid #e5e5e5;
+  font-family: Roboto, sans-serif;
 }
 
-.cards-press .cards-press-card-body {
-  margin: 16px;
-}
-
+/* pictogram */
 .cards-press .cards-press-card-image {
+  flex: 0 0 190px;
   line-height: 0;
 }
 
-.cards-press > ul > li img {
+.cards-press .cards-press-card-image img {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
+}
+
+/* date badge */
+.cards-press .cards-press-card-date {
+  flex: 0 0 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 8px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 8%);
+  background-color: #fff;
+  align-self: center;
+}
+
+.cards-press .cards-press-day {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  color: #3aa9d4;
+}
+
+.cards-press .cards-press-month {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #6b7a82;
+}
+
+/* body */
+.cards-press .cards-press-card-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cards-press .cards-press-card-body h3 {
+  margin: 0 0 16px;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.35;
+  padding-bottom: 14px;
+  position: relative;
+}
+
+.cards-press .cards-press-card-body h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 2px;
+  background-color: #9ec7d8;
+}
+
+.cards-press .cards-press-card-body h3 a {
+  color: #0a4b6e;
+  text-decoration: none;
+}
+
+.cards-press .cards-press-card-body h3 a:hover {
+  color: #3aa9d4;
+}
+
+.cards-press .cards-press-card-body p {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* PDF link — last paragraph, prefixed with a document icon */
+.cards-press .cards-press-card-body p:last-child a {
+  color: #0a4b6e;
+  text-decoration: none;
+}
+
+.cards-press .cards-press-card-body p:last-child a::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 15px;
+  margin-right: 6px;
+  vertical-align: -2px;
+  background-color: #d13438;
+  clip-path: polygon(0 0, 70% 0, 100% 25%, 100% 100%, 0 100%);
+}
+
+.cards-press .cards-press-card-body p:last-child a:hover {
+  color: #3aa9d4;
+}
+
+@media (width < 700px) {
+  .cards-press > ul > li {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .cards-press .cards-press-card-image {
+    flex-basis: 120px;
+  }
+
+  .cards-press .cards-press-card-body {
+    flex-basis: 100%;
+  }
 }
