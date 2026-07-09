@@ -86,7 +86,7 @@ export default function decorate(block) {
       const title = body.querySelector('h3');
       const pdfLink = body.querySelector('p:last-child a[href]');
       if (pdfLink) {
-        if (title) pdfLink.textContent = title.textContent.trim();
+        if (title) pdfLink.textContent = `Comunicat de presă - ${title.textContent.trim()}`;
         const href = pdfLink.getAttribute('href');
         if (href && href.startsWith('/')) {
           pdfLink.href = `https://romgaz.ro${href}`;
