@@ -24,6 +24,11 @@ export default function decorate(block) {
   if (pressBlock) {
     const matches = pressBlock.textContent.match(/\b(20\d{2})\b/g) || [];
     matches.forEach((y) => years.add(y));
+
+    // News/events variant has a contact sidebar to the right; stop the grey
+    // band before it so it lines up with the document list column.
+    const isDocsList = /^\s*\d{4}-\d{2}-\d{2}/.test(pressBlock.textContent);
+    if (isDocsList) block.classList.add('year-filter-docs');
   }
 
   [...years].sort((a, b) => b - a).forEach((year) => {

@@ -33,3 +33,11 @@
   outline: none;
   border-color: #203d88;
 }
+
+/* News/events variant: reserve room for the right-hand contact sidebar
+   (372px sidebar + 32px gap) so the grey band ends where the blue begins. */
+@media (width >= 900px) {
+  .year-filter.year-filter-docs {
+    margin-right: 404px;
+  }
+}
