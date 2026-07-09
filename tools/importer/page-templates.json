@@ -65,6 +65,39 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "press-release-article",
+      "urls": [
+        "https://romgaz.ro/romgaz-publicat-raportul-trimestrial-privind-activitatea-economico-financiara-grupului-romgaz-la-31",
+        "https://romgaz.ro/progres-cadrul-neptun-deep-incep-lucrarile-de-instalare-conductei-de-gaze-marea-neagra",
+        "https://romgaz.ro/grupul-romgaz-publicat-raportul-anual-consolidat-preliminar-pentru-anul-2025",
+        "https://romgaz.ro/romgaz-face-precizari-fata-de-informarea-de-presa-azomures",
+        "https://romgaz.ro/romgaz-listeaza-cea-de-doua-emisiune-de-obligatiuni-la-bursa-de-valori-bucuresti-valoare-de-500",
+        "https://romgaz.ro/romgaz-continua-angajamentul-ferm-de-investitii-de-explorare-perimetrul-neptun-deep-din-marea",
+        "https://romgaz.ro/romgaz-publicat-raportul-trimestrial-privind-activitatea-economico-financiara-grupului-romgaz-la-30",
+        "https://romgaz.ro/romgaz-incheie-un-parteneriat-strategic-cu-weatherford-pentru-digitalizarea-operatiunilor-de"
+      ],
+      "representativeUrl": "https://romgaz.ro/romgaz-publicat-raportul-trimestrial-privind-activitatea-economico-financiara-grupului-romgaz-la-31",
+      "coverageGaps": [],
+      "description": "Press-release detail/article page - H1 title, body paragraphs, and a PDF link. Default content only, scoped to the main article; header, footer, and contact sidebar excluded.",
+      "blocks": [],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Article body",
+          "selector": [
+            "#page-main-content article",
+            "#page-main-content"
+          ],
+          "style": "press-release-article",
+          "blocks": [],
+          "defaultContent": [
+            "#page-main-content article h1",
+            "#page-main-content article p"
+          ]
+        }
+      ]
     }
   ]
 }

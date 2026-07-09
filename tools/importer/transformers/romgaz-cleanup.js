@@ -36,6 +36,10 @@ export default function transform(hookName, element, payload) {
       '.breadcrumbs',
       '#block-gavias-facdori-breadcrumbs',
       '.sidebar.sidebar-right',
+      '.contact-link',
+      '.gva-quick-side',
+      '#block-gavias-facdori-about',
+      '.visually-hidden',
       '#footer',
     ]);
 
