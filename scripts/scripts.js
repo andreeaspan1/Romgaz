@@ -74,11 +74,32 @@ function buildWidgetAutoBlocks(main) {
 }
 
 /**
+ * Turns the Drupal "Selectaţi anul" year-filter paragraphs into a year-filter block.
+ * @param {Element} main The container element
+ */
+function buildYearFilterAutoBlock(main) {
+  const label = [...main.querySelectorAll('p')].find(
+    (p) => /^Selecta[țţ]i anul/i.test(p.textContent.trim()),
+  );
+  if (!label) return;
+
+  // the "Aplica" (apply) paragraph immediately follows the label
+  const next = label.nextElementSibling;
+  const apply = next && next.tagName === 'P' && /^Aplica$/i.test(next.textContent.trim())
+    ? next : null;
+
+  const block = buildBlock('year-filter', { elems: [] });
+  label.replaceWith(block);
+  if (apply) apply.remove();
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
 function buildAutoBlocks(main) {
   try {
+    buildYearFilterAutoBlock(main);
     // auto load `*/fragments/*` references
     const fragments = [...main.querySelectorAll('a[href*="/fragments/"]')].filter((f) => !f.closest('.fragment'));
     if (fragments.length > 0) {

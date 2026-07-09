@@ -1,0 +1,32 @@
+.year-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 24px auto;
+  text-align: center;
+}
+
+.year-filter .year-filter-label {
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #203d88;
+}
+
+.year-filter .year-filter-select {
+  min-width: 140px;
+  padding: 8px 12px;
+  font-family: Roboto, sans-serif;
+  font-size: 15px;
+  color: #203d88;
+  background-color: #fff;
+  border: 1px solid #c7ccd1;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.year-filter .year-filter-select:focus {
+  outline: none;
+  border-color: #203d88;
+}
