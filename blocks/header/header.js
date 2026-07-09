@@ -9,6 +9,29 @@ const SOCIAL_ICONS = {
 
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
+// Known page slugs → display titles (with correct Romanian diacritics).
+const PAGE_TITLES = {
+  'comunicate-de-presa': 'Comunicate de presă',
+  'noutati-si-evenimente': 'Noutăţi şi Evenimente',
+};
+
+/**
+ * Resolve the current page's display title from metadata or the URL slug,
+ * and write it into the banner title element. Empty on the homepage.
+ */
+function setBannerTitle(el) {
+  const slug = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '').split('/').pop();
+  if (!slug || slug === 'index' || window.location.pathname === '/') return;
+
+  const metaTitle = (document.title || '').split('|')[0].trim();
+  let title = PAGE_TITLES[slug] || metaTitle;
+  if (!title) {
+    // fall back to a title-cased version of the slug
+    title = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+  el.textContent = title;
+}
+
 async function fetchNav(navPath) {
   let resp = await fetch('/content/nav.plain.html');
   if (!resp.ok) resp = await fetch(`${navPath}.plain.html`);
@@ -218,14 +241,10 @@ export default async function decorate(block) {
   bannerImg.loading = 'lazy';
   banner.append(bannerImg);
 
-  // page title (text before " | " in document.title), skipped on the homepage
-  const pageTitle = (document.title || '').split('|')[0].trim();
-  if (pageTitle && window.location.pathname !== '/') {
-    const titleEl = document.createElement('span');
-    titleEl.className = 'nav-wave-title';
-    titleEl.textContent = pageTitle;
-    banner.append(titleEl);
-  }
-
+  // page title overlaid on the banner — skipped on the homepage
+  const titleEl = document.createElement('span');
+  titleEl.className = 'nav-wave-title';
+  banner.append(titleEl);
   block.append(banner);
+  setBannerTitle(titleEl);
 }

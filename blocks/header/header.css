@@ -1,6 +1,8 @@
 /* Romgaz header */
 /* stylelint-disable no-descending-specificity */
 header {
+  /* override boilerplate fixed height so nav + wave banner both fit */
+  height: auto;
   background-color: #fff;
   font-size: 15.52px;
   color: rgb(25 27 28);
