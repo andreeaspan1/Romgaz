@@ -94,11 +94,42 @@ function buildYearFilterAutoBlock(main) {
 }
 
 /**
+ * Removes leftover Drupal listing chrome that leaked into the press listing
+ * body: the pagination list and the trailing "Despre noi" / "Legaturi utile"
+ * block (which duplicates the site footer).
+ * @param {Element} main The container element
+ */
+function cleanupPressListing(main) {
+  if (!main.querySelector('.cards-press')) return;
+
+  // pagination: a <ul> whose links point at the ?page= listing pages
+  main.querySelectorAll('ul').forEach((ul) => {
+    if (ul.querySelector('a[href*="page="]')) ul.remove();
+  });
+
+  // trailing about/links duplication: remove each matching heading and every
+  // following sibling (paragraph, list, further headings) up to the end.
+  main.querySelectorAll('h2').forEach((h2) => {
+    if (/^(Despre noi|Legaturi utile)$/i.test(h2.textContent.trim())) {
+      let node = h2.nextElementSibling;
+      while (node && !(node.tagName === 'H2'
+        && /^(Despre noi|Legaturi utile)$/i.test(node.textContent.trim()))) {
+        const toRemove = node;
+        node = node.nextElementSibling;
+        toRemove.remove();
+      }
+      h2.remove();
+    }
+  });
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
 function buildAutoBlocks(main) {
   try {
+    cleanupPressListing(main);
     buildYearFilterAutoBlock(main);
     // auto load `*/fragments/*` references
     const fragments = [...main.querySelectorAll('a[href*="/fragments/"]')].filter((f) => !f.closest('.fragment'));
