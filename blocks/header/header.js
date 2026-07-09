@@ -212,7 +212,7 @@ export default async function decorate(block) {
   const banner = document.createElement('div');
   banner.className = 'nav-wave-banner';
   const bannerImg = document.createElement('img');
-  bannerImg.src = '/content/images/romgaz-wave-banner.png';
+  bannerImg.src = '/img/romgaz-wave-banner.png';
   bannerImg.alt = '';
   bannerImg.setAttribute('aria-hidden', 'true');
   bannerImg.loading = 'lazy';
