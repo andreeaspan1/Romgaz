@@ -85,7 +85,7 @@ header nav .nav-social a:hover {
 header .nav-wave-banner {
   position: relative;
   width: 100%;
-  height: 56px;
+  height: 72px;
   line-height: 0;
   overflow: hidden;
 }
@@ -99,7 +99,7 @@ header .nav-wave-banner img {
 
 @media (width < 900px) {
   header .nav-wave-banner {
-    height: 44px;
+    height: 52px;
   }
 }
 
@@ -110,7 +110,7 @@ header .nav-wave-title {
   transform: translate(-50%, -50%);
   color: #203d88;
   font-family: Roboto, sans-serif;
-  font-size: 22px;
+  font-size: 32px;
   font-weight: 900;
   line-height: 1.1;
   text-align: center;
@@ -119,9 +119,8 @@ header .nav-wave-title {
 
 @media (width < 900px) {
   header .nav-wave-title {
-    font-size: 24px;
-    white-space: normal;
-    width: 90%;
+    font-size: 22px;
+    white-space: nowrap;
   }
 }
 
