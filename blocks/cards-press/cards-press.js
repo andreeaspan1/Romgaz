@@ -45,19 +45,23 @@ export default function decorate(block) {
     const bodyCell = cells.find((d) => d !== imageCell && d.querySelector('h3'))
       || cells.find((d) => d !== imageCell);
 
-    // image (optional — skip broken/missing sources so the card still renders)
-    if (imageCell) {
-      const img = imageCell.querySelector('img');
-      const src = img && img.getAttribute('src');
-      const valid = src && !src.startsWith('about:') && src.trim() !== '';
-      if (valid) {
-        const imageWrap = document.createElement('div');
-        imageWrap.className = 'cards-press-card-image';
-        const pic = createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }]);
-        imageWrap.append(pic);
-        li.append(imageWrap);
-      }
+    // image — use the item's own image, falling back to the generic news icon
+    // when the source image is missing or broken (e.g. unpublished pictograms).
+    const img = imageCell && imageCell.querySelector('img');
+    const src = img && img.getAttribute('src');
+    const valid = src && !src.startsWith('about:') && src.trim() !== '';
+    const imageWrap = document.createElement('div');
+    imageWrap.className = 'cards-press-card-image';
+    if (valid) {
+      imageWrap.append(createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }]));
+    } else {
+      const fallback = document.createElement('img');
+      fallback.src = '/img/cards-press-icon.jpg';
+      fallback.alt = '';
+      fallback.loading = 'lazy';
+      imageWrap.append(fallback);
     }
+    li.append(imageWrap);
 
     // date badge — first paragraph in the body holds the date
     if (bodyCell) {
