@@ -33,7 +33,67 @@ function parseDate(text) {
   return { day, label: `${month} ${year}` };
 }
 
+const ISO_TS = /^\d{4}-\d{2}-\d{2}/;
+
+/**
+ * Fix a Drupal file link so it resolves on the migrated site and opens safely.
+ */
+function fixPdfLink(link) {
+  const href = link.getAttribute('href');
+  if (href && href.startsWith('/')) link.href = `https://romgaz.ro${href}`;
+  link.setAttribute('target', '_blank');
+  link.setAttribute('rel', 'noopener');
+}
+
+/**
+ * News/events "documents list" variant: each row is a timestamp + a
+ * PDF-linked title, rendered as a compact single line.
+ */
+function decorateDocsList(block, rows) {
+  block.classList.add('cards-press-docs');
+  const ul = document.createElement('ul');
+
+  rows.forEach((row) => {
+    const bodyCell = [...row.children].find((d) => d.querySelector('h3'));
+    if (!bodyCell) return;
+    const dateP = bodyCell.querySelector(':scope > p');
+    const link = bodyCell.querySelector('h3 a[href]');
+    if (!link) return;
+
+    const li = document.createElement('li');
+
+    if (dateP) {
+      const date = document.createElement('span');
+      date.className = 'cards-press-doc-date';
+      date.textContent = dateP.textContent.trim();
+      li.append(date);
+    }
+
+    fixPdfLink(link);
+    link.classList.add('cards-press-doc-link');
+    li.append(link);
+
+    ul.append(li);
+  });
+
+  block.textContent = '';
+  block.append(ul);
+}
+
 export default function decorate(block) {
+  // Detect the news/events variant: rows whose first paragraph is an ISO
+  // timestamp (e.g. "2026-07-06 - 14:23"). Render those as a compact list.
+  const rows = [...block.children];
+  const isDocsList = rows.length > 0 && rows.every((row) => {
+    const bodyCell = [...row.children].find((d) => d.querySelector('h3'));
+    const firstP = bodyCell && bodyCell.querySelector(':scope > p');
+    return firstP && ISO_TS.test(firstP.textContent.trim());
+  });
+  if (isDocsList) {
+    decorateDocsList(block, rows);
+    return;
+  }
+
   const ul = document.createElement('ul');
 
   [...block.children].forEach((row) => {
@@ -87,12 +147,7 @@ export default function decorate(block) {
       const pdfLink = body.querySelector('p:last-child a[href]');
       if (pdfLink) {
         if (title) pdfLink.textContent = `Comunicat de presă - ${title.textContent.trim()}`;
-        const href = pdfLink.getAttribute('href');
-        if (href && href.startsWith('/')) {
-          pdfLink.href = `https://romgaz.ro${href}`;
-        }
-        pdfLink.setAttribute('target', '_blank');
-        pdfLink.setAttribute('rel', 'noopener');
+        fixPdfLink(pdfLink);
       }
     }
 
