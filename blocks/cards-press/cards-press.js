@@ -40,19 +40,23 @@ export default function decorate(block) {
     const li = document.createElement('li');
 
     const cells = [...row.children];
-    const imageCell = cells.find((d) => d.querySelector('picture'));
-    const bodyCell = cells.find((d) => d !== imageCell);
+    // image cell contains a picture or img; body cell is the other one (has a heading)
+    const imageCell = cells.find((d) => d.querySelector('picture, img') && !d.querySelector('h3'));
+    const bodyCell = cells.find((d) => d !== imageCell && d.querySelector('h3'))
+      || cells.find((d) => d !== imageCell);
 
-    // image
+    // image (optional — skip broken/missing sources so the card still renders)
     if (imageCell) {
       const img = imageCell.querySelector('img');
-      const imageWrap = document.createElement('div');
-      imageWrap.className = 'cards-press-card-image';
-      if (img) {
+      const src = img && img.getAttribute('src');
+      const valid = src && !src.startsWith('about:') && src.trim() !== '';
+      if (valid) {
+        const imageWrap = document.createElement('div');
+        imageWrap.className = 'cards-press-card-image';
         const pic = createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }]);
         imageWrap.append(pic);
+        li.append(imageWrap);
       }
-      li.append(imageWrap);
     }
 
     // date badge — first paragraph in the body holds the date
