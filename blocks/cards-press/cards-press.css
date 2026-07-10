@@ -154,6 +154,14 @@
   font-family: Roboto, sans-serif;
 }
 
+/* Lift the sidebar up so its top aligns with the grey year-filter band,
+   putting the two side by side (the band sits in the section above). */
+@media (width >= 900px) {
+  .cards-press-docs .cards-press-sidebar {
+    margin-top: -127px;
+  }
+}
+
 .cards-press-docs .cards-press-sidebar-group {
   padding: 18px 0;
   border-bottom: 1px solid rgb(255 255 255 / 12%);
