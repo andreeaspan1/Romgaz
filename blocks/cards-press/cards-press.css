@@ -17,7 +17,7 @@
 
 /* pictogram */
 .cards-press .cards-press-card-image {
-  flex: 0 0 280px;
+  flex: 0 0 360px;
   line-height: 0;
 }
 
@@ -125,7 +125,7 @@
   }
 
   .cards-press .cards-press-card-image {
-    flex-basis: 160px;
+    flex-basis: 200px;
   }
 
   .cards-press .cards-press-card-body {
