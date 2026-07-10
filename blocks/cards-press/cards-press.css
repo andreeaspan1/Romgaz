@@ -9,10 +9,15 @@
 .cards-press > ul > li {
   display: flex;
   align-items: flex-start;
-  gap: 36px;
+  gap: 12px;
   padding: 44px 8px;
   border-bottom: 1px solid #e5e5e5;
   font-family: Roboto, sans-serif;
+}
+
+/* a touch more breathing room before the article body */
+.cards-press > ul > li > .cards-press-card-body {
+  margin-left: 20px;
 }
 
 /* pictogram */
