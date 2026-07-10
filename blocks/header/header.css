@@ -124,6 +124,27 @@ header .nav-wave-title {
   }
 }
 
+/* Homepage: ROMGAZ wordmark, right-aligned on the wave banner */
+header .nav-wave-title.nav-wave-logo {
+  left: auto;
+  right: max(24px, calc((100% - 1200px) / 2 + 24px));
+  transform: translateY(-50%);
+  color: #1f4e9b;
+  font-size: 44px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+header .nav-wave-title.nav-wave-logo strong {
+  font-weight: 900;
+}
+
+@media (width < 900px) {
+  header .nav-wave-title.nav-wave-logo {
+    font-size: 30px;
+  }
+}
+
 /* ---- Row 1: main header (left nav | logo | right nav | tools) ---- */
 header nav .nav-main {
   display: flex;

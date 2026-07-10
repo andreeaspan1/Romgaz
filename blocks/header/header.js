@@ -21,7 +21,13 @@ const PAGE_TITLES = {
  */
 function setBannerTitle(el) {
   const slug = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '').split('/').pop();
-  if (!slug || slug === 'index' || window.location.pathname === '/') return;
+
+  // Homepage: show the ROMGAZ wordmark on the banner instead of a page title.
+  if (!slug || slug === 'index' || window.location.pathname === '/') {
+    el.classList.add('nav-wave-logo');
+    el.innerHTML = 'ROM<strong>GAZ</strong>';
+    return;
+  }
 
   const metaTitle = (document.title || '').split('|')[0].trim();
   let title = PAGE_TITLES[slug] || metaTitle;
