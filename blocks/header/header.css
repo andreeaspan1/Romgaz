@@ -296,6 +296,64 @@ header nav .nav-subgroup > a {
   font-weight: 700;
 }
 
+/* ---- Desktop mega-menu: dark navy panel with column groups ---- */
+@media (width >= 900px) {
+  header nav .nav-sections > ul > li > ul {
+    background-color: #16233f;
+    border-top: 0;
+    box-shadow: 0 12px 24px rgb(0 0 0 / 25%);
+    padding: 32px 40px;
+    display: none;
+    gap: 48px;
+  }
+
+  header nav .nav-sections > ul > li[aria-expanded="true"] > ul,
+  header nav .nav-sections > ul > li.nav-drop:hover > ul {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  /* each level-2 group becomes a column */
+  header nav .nav-sections > ul > li > ul > li {
+    flex: 0 0 auto;
+    min-width: 220px;
+  }
+
+  /* group heading (level-2 label) — uppercase, white, underlined */
+  header nav .nav-sections > ul > li > ul > li > a {
+    padding: 0 0 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #fff;
+    border-bottom: 1px solid rgb(255 255 255 / 20%);
+  }
+
+  header nav .nav-sections > ul > li > ul > li > a:hover {
+    background-color: transparent;
+    color: #fff;
+  }
+
+  /* level-3 links — white, no indent/border */
+  header nav .nav-sections > ul > li > ul ul {
+    padding: 0;
+    margin: 0;
+    border-left: 0;
+  }
+
+  header nav .nav-sections > ul > li > ul ul a {
+    padding: 7px 0;
+    color: rgb(255 255 255 / 85%);
+  }
+
+  header nav .nav-sections > ul > li > ul ul a:hover {
+    background-color: transparent;
+    color: #fff;
+  }
+}
+
 /* ---- Hamburger (mobile only) ---- */
 header nav .nav-hamburger {
   display: none;
