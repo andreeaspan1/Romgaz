@@ -100,12 +100,13 @@ function buildYearFilterAutoBlock(main) {
  * @param {Element} main The container element
  */
 function cleanupPressListing(main) {
-  if (!main.querySelector('.cards-press')) return;
-
-  // "skip to main content" link that Drupal injects at the top of the body
+  // "skip to main content" link that Drupal injects at the top of the body.
+  // Present on every migrated page (listings and article detail pages).
   main.querySelectorAll('a[href="#main-content"]').forEach((a) => {
     (a.closest('p') || a).remove();
   });
+
+  if (!main.querySelector('.cards-press')) return;
 
   // pagination: a <ul> whose links point at the ?page= listing pages
   main.querySelectorAll('ul').forEach((ul) => {
