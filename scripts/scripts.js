@@ -102,6 +102,11 @@ function buildYearFilterAutoBlock(main) {
 function cleanupPressListing(main) {
   if (!main.querySelector('.cards-press')) return;
 
+  // "skip to main content" link that Drupal injects at the top of the body
+  main.querySelectorAll('a[href="#main-content"]').forEach((a) => {
+    (a.closest('p') || a).remove();
+  });
+
   // pagination: a <ul> whose links point at the ?page= listing pages
   main.querySelectorAll('ul').forEach((ul) => {
     if (ul.querySelector('a[href*="page="]')) ul.remove();
