@@ -147,7 +147,7 @@
 
 .cards-press-docs .cards-press-sidebar {
   flex: 0 0 320px;
-  align-self: stretch;
+  align-self: flex-start;
   background-color: #1b3a5b;
   color: #fff;
   padding: 28px 26px;
