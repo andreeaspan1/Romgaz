@@ -16,21 +16,14 @@ export default async function decorate(block) {
   const footer = document.createElement('div');
   footer.className = 'footer-inner';
 
+  // The source footer includes "Despre noi" / "Legaturi utile" columns that are
+  // not part of the original site footer; keep only the last (copyright) section.
   const sections = [...source.querySelectorAll(':scope > div')];
-  // First two sections are content columns; the rest (copyright) sit below.
-  const columns = document.createElement('div');
-  columns.className = 'footer-columns';
-
-  sections.forEach((section, i) => {
-    if (i < sections.length - 1) {
-      section.classList.add('footer-column');
-      columns.append(section);
-    } else {
-      section.classList.add('footer-copyright');
-      footer.append(columns);
-      footer.append(section);
-    }
-  });
+  const copyright = sections[sections.length - 1];
+  if (copyright) {
+    copyright.classList.add('footer-copyright');
+    footer.append(copyright);
+  }
 
   block.append(footer);
 }
