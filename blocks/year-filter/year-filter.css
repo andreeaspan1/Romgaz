@@ -1,13 +1,13 @@
-/* Press-listing year filter: label + dropdown on a grey band, aligned left */
+/* Press-listing year filter: centered label + dropdown on a grey band */
 .year-filter {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 8px;
   margin: 24px 0;
   padding: 20px 24px;
   background-color: #f2f2f4;
-  text-align: left;
+  text-align: center;
 }
 
 .year-filter .year-filter-label {
