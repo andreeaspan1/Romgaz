@@ -260,6 +260,13 @@ header nav .nav-sections > ul > li[aria-expanded="true"] > ul {
   display: block;
 }
 
+/* desktop: open dropdowns on hover */
+@media (width >= 900px) {
+  header nav .nav-sections > ul > li.nav-drop:hover > ul {
+    display: block;
+  }
+}
+
 header nav .nav-sections ul ul li {
   position: relative;
 }

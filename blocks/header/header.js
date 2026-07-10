@@ -171,15 +171,20 @@ export default async function decorate(block) {
   overlay.className = 'nav-overlay';
   nav.append(overlay);
 
-  // Dropdown interaction across both nav groups.
+  // Dropdown interaction across both nav groups. On desktop the top-level
+  // dropdowns open on hover (see CSS), so a click only needs to prevent the
+  // placeholder "#" links from jumping. On mobile, click toggles the panel.
   main.querySelectorAll('.nav-drop').forEach((li) => {
     const link = li.querySelector(':scope > a');
     if (link) {
       link.addEventListener('click', (e) => {
-        if (link.getAttribute('href') === '#' || !isDesktop.matches) {
+        if (isDesktop.matches) {
+          if (link.getAttribute('href') === '#') e.preventDefault();
+          return;
+        }
+        if (link.getAttribute('href') === '#') {
           e.preventDefault();
           const expanded = li.getAttribute('aria-expanded') === 'true';
-          if (isDesktop.matches) closeAllDropdowns(main);
           li.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         }
       });
