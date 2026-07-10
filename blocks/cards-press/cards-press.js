@@ -74,7 +74,8 @@ function buildContactSidebar() {
       <p>+40 0374 402 541 (între orele 8 – 16)</p>
       <p>+40 0748 700 004 (între orele 8 – 16)</p>
       <p>Fax: 0269846901</p>
-    </div>`;
+    </div>
+    <a class="cards-press-sidebar-btn" href="https://romgaz.ro/contact" target="_blank" rel="noopener">Contactati-ne</a>`;
   return aside;
 }
 

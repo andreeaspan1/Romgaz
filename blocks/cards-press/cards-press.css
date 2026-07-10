@@ -192,6 +192,26 @@
   text-decoration: underline;
 }
 
+.cards-press-docs .cards-press-sidebar-btn {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 12px 26px;
+  background-color: #2d4f8e;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+.cards-press-docs .cards-press-sidebar-btn:hover {
+  background-color: #24427a;
+  color: #fff;
+  text-decoration: none;
+}
+
 .cards-press-docs .cards-press-docs-list li {
   display: flex;
   align-items: baseline;
