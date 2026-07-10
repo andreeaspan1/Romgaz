@@ -192,14 +192,14 @@
   text-decoration: underline;
 }
 
-.cards-press-docs > ul > li {
+.cards-press-docs .cards-press-docs-list li {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  padding: 10px 8px;
+  padding: 8px;
   border-bottom: 1px solid #eef1f3;
   font-family: Roboto, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
@@ -227,7 +227,7 @@
   top: 1px;
   width: 12px;
   height: 15px;
-  background-color: #d13438;
+  background-color: #0a4b6e;
   clip-path: polygon(0 0, 70% 0, 100% 25%, 100% 100%, 0 100%);
 }
 
