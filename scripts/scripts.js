@@ -106,6 +106,15 @@ function cleanupPressListing(main) {
     (a.closest('p') || a).remove();
   });
 
+  // Relative Drupal file links (/sites/default/files/...) 404 on the migrated
+  // site. Point them at the original romgaz.ro origin and open in a new tab.
+  // Applies to article detail pages as well as the listing cards.
+  main.querySelectorAll('a[href^="/sites/default/files/"]').forEach((a) => {
+    a.href = `https://romgaz.ro${a.getAttribute('href')}`;
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener');
+  });
+
   if (!main.querySelector('.cards-press')) return;
 
   // pagination: a <ul> whose links point at the ?page= listing pages
