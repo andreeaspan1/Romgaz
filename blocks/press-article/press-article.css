@@ -3,6 +3,7 @@
   display: flex;
   align-items: flex-start;
   gap: 64px;
+  margin-top: 40px;
   font-family: Roboto, sans-serif;
 }
 
