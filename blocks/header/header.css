@@ -85,50 +85,52 @@ header nav .nav-social a:hover {
 header .nav-wave-banner {
   position: relative;
   width: 100%;
-  height: 72px;
-  line-height: 0;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
   overflow: hidden;
 }
 
 header .nav-wave-banner img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 0;
 }
 
 @media (width < 900px) {
   header .nav-wave-banner {
-    height: 52px;
+    min-height: 52px;
   }
 }
 
 header .nav-wave-title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
   color: #203d88;
   font-family: Roboto, sans-serif;
-  font-size: 40px;
+  font-size: 34px;
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.15;
   text-align: center;
-  white-space: nowrap;
 }
 
 @media (width < 900px) {
   header .nav-wave-title {
-    font-size: 26px;
-    white-space: nowrap;
+    font-size: 22px;
   }
 }
 
 /* Homepage: ROMGAZ wordmark, right-aligned on the wave banner */
 header .nav-wave-title.nav-wave-logo {
-  left: auto;
-  right: max(24px, calc((100% - 1200px) / 2 + 24px));
-  transform: translateY(-50%);
+  margin-left: auto;
+  margin-right: max(0px, calc((100% - 1200px) / 2));
   color: #1f4e9b;
   font-size: 44px;
   font-weight: 400;
