@@ -2,7 +2,7 @@
 .press-article .press-article-layout {
   display: flex;
   align-items: flex-start;
-  gap: 32px;
+  gap: 64px;
   font-family: Roboto, sans-serif;
 }
 
