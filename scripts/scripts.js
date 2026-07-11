@@ -166,6 +166,23 @@ function cleanupPressListing(main) {
 }
 
 /**
+ * Wraps a press-release detail page (H1 + summary + PDF link) into a
+ * press-article block so it gets the two-column layout with contact sidebar.
+ * @param {Element} main The container element
+ */
+function buildPressArticleAutoBlock(main) {
+  const slug = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '').split('/').pop();
+  if (!DETAIL_PDF_URLS[slug] || main.querySelector('.cards-press')) return;
+
+  const contentDiv = [...main.children].find((d) => d.querySelector('h1'));
+  if (!contentDiv) return;
+
+  const elems = [...contentDiv.children];
+  const block = buildBlock('press-article', [[{ elems }]]);
+  contentDiv.append(block);
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -173,6 +190,7 @@ function buildAutoBlocks(main) {
   try {
     cleanupPressListing(main);
     buildYearFilterAutoBlock(main);
+    buildPressArticleAutoBlock(main);
     // auto load `*/fragments/*` references
     const fragments = [...main.querySelectorAll('a[href*="/fragments/"]')].filter((f) => !f.closest('.fragment'));
     if (fragments.length > 0) {
