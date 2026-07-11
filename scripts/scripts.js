@@ -93,6 +93,20 @@ function buildYearFilterAutoBlock(main) {
   if (apply) apply.remove();
 }
 
+// Correct absolute PDF URL for each press-release detail page. The published
+// article content stores a slugified (broken) file path, so we can't recover
+// the original filename from the href — map it by page slug instead.
+const DETAIL_PDF_URLS = {
+  'grupul-romgaz-publicat-raportul-anual-consolidat-preliminar-pentru-anul-2025': 'https://romgaz.ro/sites/default/files/2026-02/Comunicat%20de%20pres%C4%83%20ROMGAZ%20-%2027%20februarie%202026.pdf',
+  'progres-cadrul-neptun-deep-incep-lucrarile-de-instalare-conductei-de-gaze-marea-neagra': 'https://romgaz.ro/sites/default/files/2026-05/Progres%20in%20cadrul%20Neptun%20Deep%20-%20Incep%20lucrarile%20de%20instalare%20a%20conductei%20de%20gaze%20in%20Marea%20Neagra.pdf',
+  'romgaz-continua-angajamentul-ferm-de-investitii-de-explorare-perimetrul-neptun-deep-din-marea': 'https://romgaz.ro/sites/default/files/2025-12/Comunicat%20de%20pres%C4%83%20ROMGAZ%20-%2010%20decembrie%202025.pdf',
+  'romgaz-face-precizari-fata-de-informarea-de-presa-azomures': 'https://romgaz.ro/sites/default/files/2026-01/Comunicat%20de%20pres%C4%83%20ROMGAZ%20-%2013%20ianuarie%202026.pdf',
+  'romgaz-incheie-un-parteneriat-strategic-cu-weatherford-pentru-digitalizarea-operatiunilor-de': 'https://romgaz.ro/sites/default/files/2025-09/Comunicat%20de%20pres%C4%83%20ROMGAZ%20-%2022%20septembrie%202025.pdf',
+  'romgaz-listeaza-cea-de-doua-emisiune-de-obligatiuni-la-bursa-de-valori-bucuresti-valoare-de-500': 'https://romgaz.ro/sites/default/files/2025-12/Comunicat%20de%20presa_ROMGAZ%20listeaza%20a%20doua%20emisiune%20de%20obligatiuni%20la%20BVB_22.12.2025_22.12.2025.pdf',
+  'romgaz-publicat-raportul-trimestrial-privind-activitatea-economico-financiara-grupului-romgaz-la-30': 'https://romgaz.ro/sites/default/files/2025-11/Comunicat%20de%20pres%C4%83%20ROMGAZ%20-%2014%20noiembrie%202025.pdf',
+  'romgaz-publicat-raportul-trimestrial-privind-activitatea-economico-financiara-grupului-romgaz-la-31': 'https://romgaz.ro/sites/default/files/2026-05/Comunicat%20de%20pres%C4%83%20ROMGAZ%20-%2015%20mai%202026_0.pdf',
+};
+
 /**
  * Removes leftover Drupal listing chrome that leaked into the press listing
  * body: the pagination list and the trailing "Despre noi" / "Legaturi utile"
@@ -114,6 +128,19 @@ function cleanupPressListing(main) {
     a.setAttribute('target', '_blank');
     a.setAttribute('rel', 'noopener');
   });
+
+  // On press-release detail pages the published PDF href is slugified/broken;
+  // replace it with the known-good absolute URL for this page.
+  const slug = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '').split('/').pop();
+  const pdfUrl = DETAIL_PDF_URLS[slug];
+  if (pdfUrl && !main.querySelector('.cards-press')) {
+    const link = main.querySelector('a[href*="/sites/default/files/"], a[href*="/files/"]');
+    if (link) {
+      link.href = pdfUrl;
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener');
+    }
+  }
 
   if (!main.querySelector('.cards-press')) return;
 
