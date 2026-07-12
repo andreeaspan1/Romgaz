@@ -228,14 +228,32 @@ export default function decorate(block) {
     const valid = src && !src.startsWith('about:') && src.trim() !== '';
     const imageWrap = document.createElement('div');
     imageWrap.className = 'cards-press-card-image';
-    if (valid) {
-      imageWrap.append(createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }]));
-    } else {
+    const useFallback = () => {
       const fallback = document.createElement('img');
       fallback.src = '/img/cards-press-icon.jpg';
       fallback.alt = '';
       fallback.loading = 'lazy';
+      imageWrap.textContent = '';
       imageWrap.append(fallback);
+    };
+    if (valid) {
+      let origin = '';
+      try { origin = new URL(img.src, window.location.href).origin; } catch { /* noop */ }
+      if (origin === window.location.origin) {
+        // same-origin: safe to use EDS image optimization
+        imageWrap.append(createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }]));
+      } else {
+        // external image (e.g. romgaz.ro photos): plain <img>, EDS optimizer
+        // params don't apply cross-origin. Swap to the icon if it fails to load.
+        const ext = document.createElement('img');
+        ext.src = img.src;
+        ext.alt = img.alt || '';
+        ext.loading = 'lazy';
+        ext.addEventListener('error', useFallback, { once: true });
+        imageWrap.append(ext);
+      }
+    } else {
+      useFallback();
     }
     li.append(imageWrap);
 
