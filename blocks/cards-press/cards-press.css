@@ -112,11 +112,11 @@
 .cards-press .cards-press-card-body p:last-child a::before {
   content: '';
   display: inline-block;
-  width: 15px;
-  height: 19px;
+  width: 11px;
+  height: 14px;
   margin-right: 8px;
-  vertical-align: -3px;
-  background-color: #d13438;
+  vertical-align: -2px;
+  background-color: #0a4b6e;
   clip-path: polygon(0 0, 70% 0, 100% 25%, 100% 100%, 0 100%);
 }
 
