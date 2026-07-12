@@ -86,11 +86,45 @@ function findBlocksOnPage(document, template) {
   return pageBlocks;
 }
 
+// The listing is paginated (?page=0..N). Fetch every subsequent page and merge
+// their items into the base page's .view-content-wrap so the single imported
+// document contains ALL press releases, matching the original site.
+async function mergePaginatedItems(document) {
+  const container = document.querySelector('#page-main-content .view-content-wrap');
+  if (!container) return;
+
+  // Discover the last page number from the pager (?page=N links).
+  let lastPage = 0;
+  document.querySelectorAll('a[href*="page="]').forEach((a) => {
+    const m = (a.getAttribute('href') || '').match(/[?&]page=(\d+)/);
+    if (m) lastPage = Math.max(lastPage, parseInt(m[1], 10));
+  });
+  if (lastPage === 0) return;
+
+  const base = `${window.location.origin}${window.location.pathname}`;
+  for (let p = 1; p <= lastPage; p += 1) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const res = await fetch(`${base}?page=${p}`, { credentials: 'same-origin' });
+      // eslint-disable-next-line no-await-in-loop
+      const text = await res.text();
+      const doc = new DOMParser().parseFromString(text, 'text/html');
+      const items = doc.querySelectorAll('#page-main-content .view-content-wrap > .item');
+      items.forEach((item) => container.appendChild(document.importNode(item, true)));
+    } catch (e) {
+      console.error(`Failed to fetch listing page ${p}:`, e);
+    }
+  }
+}
+
 export default {
-  transform: (payload) => {
+  transform: async (payload) => {
     const { document, url, html, params } = payload;
 
     const main = document.body;
+
+    // 0. Merge all paginated listing pages into the base page.
+    await mergePaginatedItems(document);
 
     // 1. beforeTransform (initial cleanup)
     executeTransformers('beforeTransform', main, payload);

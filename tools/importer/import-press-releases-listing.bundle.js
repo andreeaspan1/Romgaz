@@ -34,6 +34,26 @@ var CustomImportScript = (() => {
     return to;
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
 
   // tools/importer/import-press-releases-listing.js
   var import_press_releases_listing_exports = {};
@@ -117,6 +137,10 @@ var CustomImportScript = (() => {
         ".breadcrumbs",
         "#block-gavias-facdori-breadcrumbs",
         ".sidebar.sidebar-right",
+        ".contact-link",
+        ".gva-quick-side",
+        "#block-gavias-facdori-about",
+        ".visually-hidden",
         "#footer"
       ]);
       WebImporter.DOMUtils.remove(element, ["script", "noscript", "iframe", "link", "style"]);
@@ -188,10 +212,35 @@ var CustomImportScript = (() => {
     console.log(`Found ${pageBlocks.length} block instances on page`);
     return pageBlocks;
   }
+  function mergePaginatedItems(document) {
+    return __async(this, null, function* () {
+      const container = document.querySelector("#page-main-content .view-content-wrap");
+      if (!container) return;
+      let lastPage = 0;
+      document.querySelectorAll('a[href*="page="]').forEach((a) => {
+        const m = (a.getAttribute("href") || "").match(/[?&]page=(\d+)/);
+        if (m) lastPage = Math.max(lastPage, parseInt(m[1], 10));
+      });
+      if (lastPage === 0) return;
+      const base = `${window.location.origin}${window.location.pathname}`;
+      for (let p = 1; p <= lastPage; p += 1) {
+        try {
+          const res = yield fetch(`${base}?page=${p}`, { credentials: "same-origin" });
+          const text = yield res.text();
+          const doc = new DOMParser().parseFromString(text, "text/html");
+          const items = doc.querySelectorAll("#page-main-content .view-content-wrap > .item");
+          items.forEach((item) => container.appendChild(document.importNode(item, true)));
+        } catch (e) {
+          console.error(`Failed to fetch listing page ${p}:`, e);
+        }
+      }
+    });
+  }
   var import_press_releases_listing_default = {
-    transform: (payload) => {
+    transform: (payload) => __async(void 0, null, function* () {
       const { document, url, html, params } = payload;
       const main = document.body;
+      yield mergePaginatedItems(document);
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
@@ -225,7 +274,7 @@ var CustomImportScript = (() => {
           blocks: pageBlocks.map((b) => b.name)
         }
       }];
-    }
+    })
   };
   return __toCommonJS(import_press_releases_listing_exports);
 })();
