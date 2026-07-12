@@ -114,10 +114,12 @@ const DETAIL_PDF_URLS = {
  * @param {Element} main The container element
  */
 function cleanupPressListing(main) {
-  // "skip to main content" link that Drupal injects at the top of the body.
-  // Present on every migrated page (listings and article detail pages).
-  main.querySelectorAll('a[href="#main-content"]').forEach((a) => {
-    (a.closest('p') || a).remove();
+  // "skip to main content" link Drupal injects at the top. On the published
+  // site DA rewrites its href (from #main-content to /), so match by text.
+  main.querySelectorAll('a').forEach((a) => {
+    if (/^mergi la con[țţ]inutul principal$/i.test(a.textContent.trim())) {
+      (a.closest('p') || a).remove();
+    }
   });
 
   // Relative Drupal file links (/sites/default/files/...) 404 on the migrated
@@ -144,9 +146,13 @@ function cleanupPressListing(main) {
 
   if (!main.querySelector('.cards-press')) return;
 
-  // pagination: a <ul> whose links point at the ?page= listing pages
+  // pagination: a <ul> of "Pagina N" / "Ultima" links. DA rewrites the hrefs
+  // (from ?page= to /), so detect the list by its link text instead.
   main.querySelectorAll('ul').forEach((ul) => {
-    if (ul.querySelector('a[href*="page="]')) ul.remove();
+    const links = [...ul.querySelectorAll('a')];
+    const isPager = links.length > 0
+      && links.every((a) => /^(pagina\b|…|\.\.\.|ultima|inainte|înainte|prima)/i.test(a.textContent.trim()));
+    if (isPager) ul.remove();
   });
 
   // trailing about/links duplication: remove each matching heading and every
