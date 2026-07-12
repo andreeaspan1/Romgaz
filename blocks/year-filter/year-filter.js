@@ -45,8 +45,13 @@ export default function decorate(block) {
 
   select.addEventListener('change', () => {
     const { value } = select;
+    // Flag cards outside the selected year; pagination reads this flag and
+    // decides actual visibility, so filter + paging stay in sync.
     [...document.querySelectorAll('.cards-press li')].forEach((li) => {
-      li.style.display = !value || cardYear(li) === value ? '' : 'none';
+      li.dataset.yearHidden = value && cardYear(li) !== value ? 'true' : 'false';
+    });
+    document.querySelectorAll('.cards-press').forEach((b) => {
+      b.dispatchEvent(new CustomEvent('cards-press:repaginate'));
     });
   });
 

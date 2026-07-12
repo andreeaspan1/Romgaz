@@ -146,12 +146,14 @@ function cleanupPressListing(main) {
 
   if (!main.querySelector('.cards-press')) return;
 
-  // pagination: a <ul> of "Pagina N" / "Ultima" links. DA rewrites the hrefs
-  // (from ?page= to /), so detect the list by its link text instead.
+  // pagination: a <ul> of page-number / "Ultima" / "Inainte" links. DA rewrites
+  // the hrefs (from ?page= to /), so detect the list by its link text instead.
+  // Items are either bare page numbers, an ellipsis, or the nav words.
+  const pagerText = /^(\d+|…|\.\.\.|pagina\b.*|ultima\b.*|inainte\b.*|înainte\b.*|prima\b.*)$/i;
   main.querySelectorAll('ul').forEach((ul) => {
-    const links = [...ul.querySelectorAll('a')];
-    const isPager = links.length > 0
-      && links.every((a) => /^(pagina\b|…|\.\.\.|ultima|inainte|înainte|prima)/i.test(a.textContent.trim()));
+    const items = [...ul.children];
+    const isPager = items.length > 0
+      && items.every((li) => pagerText.test(li.textContent.trim()));
     if (isPager) ul.remove();
   });
 

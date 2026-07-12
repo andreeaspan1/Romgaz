@@ -121,6 +121,79 @@ function decorateDocsList(block, rows) {
   block.append(layout);
 }
 
+const PAGE_SIZE = 8;
+
+/**
+ * Client-side pagination for the press-release cards. Shows PAGE_SIZE cards
+ * per page and renders a numbered pager (matching the source Drupal listing).
+ * Operates on the cards the year-filter leaves eligible: a card is eligible
+ * unless it carries the `data-year-hidden` flag. Re-runnable via the
+ * `cards-press:repaginate` event so the year filter can reset to page 1.
+ */
+function paginate(block, ul) {
+  const pager = document.createElement('nav');
+  pager.className = 'cards-press-pager';
+  pager.setAttribute('aria-label', 'Paginare');
+  ul.after(pager);
+
+  let current = 1;
+
+  const render = () => {
+    const eligible = [...ul.children].filter((li) => li.dataset.yearHidden !== 'true');
+    const pages = Math.max(1, Math.ceil(eligible.length / PAGE_SIZE));
+    if (current > pages) current = pages;
+
+    // show only the current page's slice of the eligible cards
+    [...ul.children].forEach((li) => { li.style.display = 'none'; });
+    const start = (current - 1) * PAGE_SIZE;
+    eligible.slice(start, start + PAGE_SIZE).forEach((li) => { li.style.display = ''; });
+
+    // build the numbered pager (hidden when everything fits on one page)
+    pager.textContent = '';
+    if (pages <= 1) return;
+
+    const addBtn = (label, page, opts = {}) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cards-press-page';
+      if (opts.active) btn.setAttribute('aria-current', 'page');
+      if (opts.disabled) btn.disabled = true;
+      btn.textContent = label;
+      if (!opts.disabled && !opts.active) {
+        btn.addEventListener('click', () => {
+          current = page;
+          render();
+          block.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+      pager.append(btn);
+    };
+
+    // windowed page numbers: first, current-1..current+1, last, with ellipses
+    const nums = new Set([1, pages, current, current - 1, current + 1]);
+    const sorted = [...nums].filter((n) => n >= 1 && n <= pages).sort((a, b) => a - b);
+    let prev = 0;
+    sorted.forEach((n) => {
+      if (n - prev > 1) {
+        const gap = document.createElement('span');
+        gap.className = 'cards-press-page-gap';
+        gap.textContent = '…';
+        pager.append(gap);
+      }
+      addBtn(String(n), n, { active: n === current });
+      prev = n;
+    });
+
+    addBtn('Înainte ›', current + 1, { disabled: current >= pages });
+    addBtn('Ultima »', pages, { disabled: current >= pages });
+  };
+
+  // reset to page 1 and re-render when the year filter changes the set
+  block.addEventListener('cards-press:repaginate', () => { current = 1; render(); });
+
+  render();
+}
+
 export default function decorate(block) {
   // Detect the news/events variant: rows whose first paragraph is an ISO
   // timestamp (e.g. "2026-07-06 - 14:23"). Render those as a compact list.
@@ -197,4 +270,5 @@ export default function decorate(block) {
 
   block.textContent = '';
   block.append(ul);
+  paginate(block, ul);
 }
