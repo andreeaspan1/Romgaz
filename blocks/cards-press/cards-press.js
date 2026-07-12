@@ -169,20 +169,22 @@ function paginate(block, ul) {
       pager.append(btn);
     };
 
-    // windowed page numbers: first, current-1..current+1, last, with ellipses
-    const nums = new Set([1, pages, current, current - 1, current + 1]);
-    const sorted = [...nums].filter((n) => n >= 1 && n <= pages).sort((a, b) => a - b);
-    let prev = 0;
-    sorted.forEach((n) => {
-      if (n - prev > 1) {
-        const gap = document.createElement('span');
-        gap.className = 'cards-press-page-gap';
-        gap.textContent = '…';
-        pager.append(gap);
-      }
+    // Sliding window of up to 9 consecutive page numbers (matches the source),
+    // then an ellipsis if more pages remain, then the next/last controls.
+    const WINDOW = 9;
+    const winEnd = Math.min(pages, Math.max(1, current - Math.floor(WINDOW / 2)) + WINDOW - 1);
+    const winStart = Math.max(1, winEnd - WINDOW + 1);
+
+    for (let n = winStart; n <= winEnd; n += 1) {
       addBtn(String(n), n, { active: n === current });
-      prev = n;
-    });
+    }
+
+    if (winEnd < pages) {
+      const gap = document.createElement('span');
+      gap.className = 'cards-press-page-gap';
+      gap.textContent = '…';
+      pager.append(gap);
+    }
 
     addBtn('Înainte ›', current + 1, { disabled: current >= pages });
     addBtn('Ultima »', pages, { disabled: current >= pages });
