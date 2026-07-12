@@ -34,28 +34,28 @@
 
 /* date badge */
 .cards-press .cards-press-card-date {
-  flex: 0 0 132px;
+  flex: 0 0 96px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 18px 12px;
+  padding: 12px 8px;
   box-shadow: 0 2px 10px rgb(0 0 0 / 8%);
   background-color: #fff;
   align-self: center;
 }
 
 .cards-press .cards-press-day {
-  font-size: 48px;
+  font-size: 34px;
   font-weight: 700;
   line-height: 1;
   color: #3aa9d4;
 }
 
 .cards-press .cards-press-month {
-  margin-top: 6px;
-  font-size: 16px;
+  margin-top: 5px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.5px;
   color: #6b7a82;
