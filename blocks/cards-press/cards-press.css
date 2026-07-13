@@ -172,11 +172,19 @@
 @media (width < 700px) {
   .cards-press > ul > li {
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 12px;
   }
 
+  /* keep the pictogram and date badge side by side; they shrink to fit
+     the row together, and the body drops to a full-width row below. */
   .cards-press .cards-press-card-image {
-    flex-basis: 200px;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 200px;
+  }
+
+  .cards-press .cards-press-card-date {
+    flex: 0 0 auto;
   }
 
   .cards-press .cards-press-card-body {
