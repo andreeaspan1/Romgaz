@@ -169,7 +169,19 @@ export default async function decorate(block) {
       <span class="nav-hamburger-icon"></span>
     </button>`;
 
-  main.append(leftGroup, brand, rightGroup, tools);
+  // Mobile drawer: a slide-in panel holding both nav groups + a close button.
+  // On desktop the drawer uses `display: contents` so leftGroup/rightGroup
+  // still flank the centered logo (order set in CSS).
+  const drawer = document.createElement('div');
+  drawer.className = 'nav-drawer';
+  const closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.className = 'nav-drawer-close';
+  closeBtn.setAttribute('aria-label', 'Close menu');
+  closeBtn.innerHTML = '&times;';
+  drawer.append(closeBtn, leftGroup, rightGroup);
+
+  main.append(drawer, brand, tools);
   nav.append(main);
 
   // backdrop overlay for the mobile drawer
@@ -221,6 +233,7 @@ export default async function decorate(block) {
     document.body.style.overflowY = expanded ? '' : 'hidden';
   });
 
+  closeBtn.addEventListener('click', closeMenu);
   overlay.addEventListener('click', closeMenu);
 
   // close desktop dropdowns when clicking outside

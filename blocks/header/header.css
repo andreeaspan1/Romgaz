@@ -160,21 +160,34 @@ header nav .nav-main {
   margin: 0 auto;
 }
 
+/* Desktop: the drawer is transparent so its children (left/right nav groups)
+   flank the centered logo as direct flex items. The close button is hidden. */
+header nav .nav-drawer {
+  display: contents;
+}
+
+header nav .nav-drawer-close {
+  display: none;
+}
+
 /* the two nav groups flank the centered logo */
 header nav .nav-sections-left {
   display: flex;
   justify-content: flex-end;
   flex: 1 1 0;
+  order: 1;
 }
 
 header nav .nav-sections-right {
   display: flex;
   justify-content: flex-start;
   flex: 1 1 0;
+  order: 3;
 }
 
 header nav .nav-brand {
   flex: 0 0 auto;
+  order: 2;
 }
 
 header nav .nav-brand img {
@@ -194,6 +207,7 @@ header nav .nav-tools {
   align-items: center;
   gap: 6px;
   flex: 0 0 auto;
+  order: 4;
 }
 
 header nav .nav-search-toggle,
@@ -468,18 +482,49 @@ header nav .nav-overlay {
     gap: 14px;
   }
 
-  /* both nav groups drop to full-width stacked rows, hidden until expanded */
-  header nav .nav-sections-left,
-  header nav .nav-sections-right {
-    order: 3;
-    flex-basis: 100%;
-    display: none;
-    justify-content: flex-start;
+  /* slide-in drawer panel holding both nav groups + close button */
+  header nav .nav-drawer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(86vw, 360px);
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 2px 0 16px rgb(0 0 0 / 20%);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 95;
+    overflow-y: auto;
+    padding-bottom: 24px;
   }
 
-  header nav[aria-expanded="true"] .nav-sections-left,
-  header nav[aria-expanded="true"] .nav-sections-right {
+  header nav[aria-expanded="true"] .nav-drawer {
+    transform: translateX(0);
+  }
+
+  /* close (×) button, centered at the top of the drawer */
+  header nav .nav-drawer-close {
     display: block;
+    align-self: center;
+    width: 100%;
+    padding: 18px;
+    border: 0;
+    border-bottom: 1px solid #eee;
+    background: transparent;
+    font-size: 24px;
+    line-height: 1;
+    color: #002c42;
+    cursor: pointer;
+  }
+
+  /* both nav groups stack full-width inside the drawer */
+  header nav .nav-sections-left,
+  header nav .nav-sections-right {
+    display: block;
+    flex: 0 0 auto;
+    width: 100%;
   }
 
   header nav .nav-sections-left > ul,
@@ -493,11 +538,32 @@ header nav .nav-overlay {
   header nav .nav-sections > ul > li {
     width: 100%;
     border-bottom: 1px solid #eee;
+    position: relative;
   }
 
   header nav .nav-sections > ul > li > a {
     width: 100%;
-    font-size: 16px;
+    padding: 16px 20px;
+    font-size: 15px;
+  }
+
+  /* replace the desktop caret with a filled navy box + white chevron */
+  header nav .nav-sections > ul > li.nav-drop > a::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 2px;
+    background-color: #16233f;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M6 9l6 6 6-6"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 14px;
   }
 
   header nav .nav-sections > ul > li > ul {
