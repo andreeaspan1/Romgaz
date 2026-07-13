@@ -106,7 +106,8 @@ header .nav-wave-banner img {
 
 @media (width < 900px) {
   header .nav-wave-banner {
-    min-height: 52px;
+    min-height: 44px;
+    padding: 6px 16px;
   }
 }
 
@@ -124,7 +125,7 @@ header .nav-wave-title {
 
 @media (width < 900px) {
   header .nav-wave-title {
-    font-size: 22px;
+    font-size: 17px;
   }
 }
 
