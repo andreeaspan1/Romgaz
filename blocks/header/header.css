@@ -544,7 +544,14 @@ header nav .nav-overlay {
   header nav .nav-sections > ul > li > a {
     width: 100%;
     padding: 16px 20px;
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f3a6b;
+  }
+
+  /* last top-level item (Contact) is teal in the source */
+  header nav .nav-sections-right > ul > li:last-child > a {
+    color: #3aa9d4;
   }
 
   /* replace the desktop caret with a filled navy box + white chevron */
