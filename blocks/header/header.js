@@ -133,15 +133,26 @@ export default async function decorate(block) {
     const ul = navSrc.querySelector(':scope > ul');
     if (ul) navSections.append(ul.cloneNode(true));
   }
+
+  // Document Authoring wraps each list item's link in a <p>. Unwrap those so
+  // the item's direct child is the <a> again (matches the `:scope > a` logic).
+  navSections.querySelectorAll('li > p').forEach((p) => {
+    if (p.children.length === 1 && p.firstElementChild.tagName === 'A') {
+      p.replaceWith(p.firstElementChild);
+    }
+  });
+
   markDropdowns(navSections);
 
   // Split top-level items around the "home" item (empty/"/" link, e.g. Acasă),
   // which is represented by the centered logo.
   const sourceUl = navSections.querySelector(':scope > ul');
   const topItems = sourceUl ? [...sourceUl.children].filter((li) => li.tagName === 'LI') : [];
+  // The "home" item (centered logo) is the one labelled "Acasă" with no submenu.
+  // Don't match on href="/" — Document Authoring rewrites every parent link to "/".
   const homeIdx = topItems.findIndex((li) => {
-    const href = li.querySelector(':scope > a')?.getAttribute('href');
-    return href === '/' || (li.textContent || '').trim().toLowerCase().startsWith('acasă');
+    const label = (li.querySelector(':scope > a')?.textContent || '').trim().toLowerCase();
+    return label === 'acasă' || label === 'acasa';
   });
   const splitAt = homeIdx >= 0 ? homeIdx : Math.ceil(topItems.length / 2);
 
@@ -189,22 +200,27 @@ export default async function decorate(block) {
   overlay.className = 'nav-overlay';
   nav.append(overlay);
 
+  // A parent link is a "placeholder" (opens its submenu instead of navigating)
+  // when it points at "#" or "/" — Document Authoring rewrites the source "#".
+  const isPlaceholder = (link) => {
+    const href = (link.getAttribute('href') || '').trim();
+    return href === '#' || href === '/' || href === '';
+  };
+
   // Dropdown interaction across both nav groups. On desktop the top-level
-  // dropdowns open on hover (see CSS), so a click only needs to prevent the
-  // placeholder "#" links from jumping. On mobile, click toggles the panel.
+  // dropdowns open on hover (see CSS); a click on a placeholder parent only
+  // prevents navigation. On mobile, click toggles the submenu panel.
   main.querySelectorAll('.nav-drop').forEach((li) => {
     const link = li.querySelector(':scope > a');
     if (link) {
       link.addEventListener('click', (e) => {
         if (isDesktop.matches) {
-          if (link.getAttribute('href') === '#') e.preventDefault();
+          if (isPlaceholder(link)) e.preventDefault();
           return;
         }
-        if (link.getAttribute('href') === '#') {
-          e.preventDefault();
-          const expanded = li.getAttribute('aria-expanded') === 'true';
-          li.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        }
+        e.preventDefault();
+        const expanded = li.getAttribute('aria-expanded') === 'true';
+        li.setAttribute('aria-expanded', expanded ? 'false' : 'true');
       });
     }
   });
@@ -212,7 +228,7 @@ export default async function decorate(block) {
   // subgroup toggles (level 2 headings that expand level 3)
   main.querySelectorAll('.nav-subgroup > a').forEach((link) => {
     link.addEventListener('click', (e) => {
-      if (link.getAttribute('href') === '#' || !isDesktop.matches) {
+      if (isPlaceholder(link) || !isDesktop.matches) {
         e.preventDefault();
         const li = link.parentElement;
         const expanded = li.getAttribute('aria-expanded') === 'true';
