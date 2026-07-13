@@ -86,7 +86,7 @@ header .nav-wave-banner {
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  min-height: 72px;
+  min-height: 110px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,7 +134,7 @@ header .nav-wave-title.nav-wave-logo {
   margin-left: auto;
   margin-right: max(0px, calc((100% - 1200px) / 2));
   color: #1f4e9b;
-  font-size: 44px;
+  font-size: 58px;
   font-weight: 400;
   letter-spacing: 1px;
 }
