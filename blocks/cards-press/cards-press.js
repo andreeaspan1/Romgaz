@@ -1,4 +1,5 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
+import PDF_URLS from './pdf-urls.js';
 
 const MONTHS = {
   jan: 'Jan',
@@ -275,13 +276,23 @@ export default function decorate(block) {
       li.append(body);
 
       // PDF link (last paragraph): label it with the article title and fix its
-      // target. Relative Drupal file paths (/sites/default/files/...) 404 on the
-      // migrated site, so resolve them against the original romgaz.ro origin.
+      // target. The published PDF href is slugified/broken, so look up the
+      // correct absolute URL by the article (detail-page) slug from the title
+      // link; fall back to resolving the raw href against romgaz.ro.
       const title = body.querySelector('h3');
+      const titleLink = title && title.querySelector('a[href]');
       const pdfLink = body.querySelector('p:last-child a[href]');
       if (pdfLink) {
         if (title) pdfLink.textContent = `Comunicat de presă - ${title.textContent.trim()}`;
-        fixPdfLink(pdfLink);
+        const artHref = titleLink && titleLink.getAttribute('href');
+        const slug = artHref && artHref.replace(/[#?].*$/, '').replace(/\/$/, '').split('/').pop();
+        if (slug && PDF_URLS[slug]) {
+          pdfLink.href = PDF_URLS[slug];
+          pdfLink.setAttribute('target', '_blank');
+          pdfLink.setAttribute('rel', 'noopener');
+        } else {
+          fixPdfLink(pdfLink);
+        }
       }
     }
 
