@@ -143,7 +143,8 @@ header .nav-wave-title.nav-wave-logo strong {
 
 @media (width < 900px) {
   header .nav-wave-title.nav-wave-logo {
-    font-size: 30px;
+    font-size: 22px;
+    margin-right: 20px;
   }
 }
 
@@ -447,17 +448,23 @@ header nav .nav-overlay {
     display: block;
   }
 
-  /* topbar stacks into full-width rows on mobile (matches source spread) */
+  /* topbar: single solid-navy row, flags left + social right */
   header nav .nav-topbar {
-    flex-direction: column;
-    gap: 8px;
-    padding: 6px 0;
+    background: #203d88;
+    padding: 0 20px;
+    min-height: 44px;
   }
 
-  header nav .nav-languages,
+  header nav .nav-languages {
+    gap: 14px;
+  }
+
+  header nav .nav-languages img {
+    height: 14px;
+  }
+
   header nav .nav-social {
-    width: 100%;
-    justify-content: space-around;
+    gap: 14px;
   }
 
   /* both nav groups drop to full-width stacked rows, hidden until expanded */
