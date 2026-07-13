@@ -573,13 +573,54 @@ header nav .nav-overlay {
     background-size: 14px;
   }
 
+  /* expanded top-level label turns teal, chevron box flips to point up */
+  header nav .nav-sections > ul > li.nav-drop[aria-expanded="true"] > a {
+    color: #3aa9d4;
+  }
+
+  header nav .nav-sections > ul > li.nav-drop[aria-expanded="true"] > a::after {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
   header nav .nav-sections > ul > li > ul {
     position: static;
     box-shadow: none;
     border-top: 0;
     min-width: 0;
     width: 100%;
-    padding-left: 12px;
+    padding: 4px 20px 12px;
+  }
+
+  /* level-2 group heading (e.g. "Management şi strategie"): bold navy, no chevron */
+  header nav .nav-sections > ul > li > ul > li > a {
+    padding: 12px 0 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #16233f;
+    text-transform: none;
+  }
+
+  /* nested group headings never get the navy chevron box */
+  header nav .nav-sections > ul > li > ul li > a::after {
+    content: none;
+  }
+
+  /* level-3 links: teal, indented, normal weight */
+  header nav .nav-sections ul ul ul {
+    margin: 0;
+    padding: 0 0 0 12px;
+    border-left: 0;
+  }
+
+  header nav .nav-sections ul ul a {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #3aa9d4;
+    white-space: normal;
+  }
+
+  header nav .nav-sections ul ul li {
+    border-bottom: 0;
   }
 
   /* hamburger -> cross animation on the menu toggle */
