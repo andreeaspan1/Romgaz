@@ -543,8 +543,10 @@ header nav .nav-overlay {
   }
 
   header nav .nav-sections > ul > li > a {
+    position: relative;
+    box-sizing: border-box;
     width: 100%;
-    padding: 16px 20px;
+    padding: 16px 56px 16px 20px;
     font-size: 14px;
     font-weight: 700;
     color: #1f3a6b;
@@ -555,14 +557,15 @@ header nav .nav-overlay {
     color: #3aa9d4;
   }
 
-  /* replace the desktop caret with a filled navy box + white chevron */
-  header nav .nav-sections > ul > li.nav-drop > a::after {
+  /* black box + white down-arrow on the right of every top-level item.
+     Use the same .nav-drop specificity as the desktop caret so this wins. */
+  header nav .nav-sections > ul > li.nav-drop > a::after,
+  header nav .nav-sections > ul > li > a::after {
     content: '';
     position: absolute;
-    top: 50%;
-    right: 20px;
-    width: 28px;
-    height: 28px;
+    inset: 50% 20px auto auto;
+    width: 30px;
+    height: 30px;
     margin: 0;
     transform: translateY(-50%);
     border: 0;
