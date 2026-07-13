@@ -431,9 +431,9 @@ header nav .nav-overlay {
     justify-content: space-between;
   }
 
-  /* hide the desktop search on mobile; keep the menu toggle */
+  /* keep the search icon beside the menu toggle on mobile */
   header nav .nav-search-toggle {
-    display: none;
+    display: inline-flex;
   }
 
   /* logo stays left, menu toggle right */
@@ -453,7 +453,7 @@ header nav .nav-overlay {
   header nav .nav-topbar {
     background: #203d88;
     padding: 0 20px;
-    min-height: 44px;
+    min-height: 56px;
   }
 
   header nav .nav-languages {
