@@ -1,5 +1,6 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import PDF_URLS from './pdf-urls.js';
+import NEWS_PDF_URLS from './news-pdf-urls.js';
 
 const MONTHS = {
   jan: 'Jan',
@@ -104,7 +105,16 @@ function decorateDocsList(block, rows) {
       li.append(date);
     }
 
-    fixPdfLink(link);
+    // The published PDF href is slugified/broken. Look up the correct absolute
+    // URL by the item's title text; fall back to origin-prefixing the raw href.
+    const correct = NEWS_PDF_URLS[link.textContent.trim()];
+    if (correct) {
+      link.href = correct;
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener');
+    } else {
+      fixPdfLink(link);
+    }
     link.classList.add('cards-press-doc-link');
     li.append(link);
 
