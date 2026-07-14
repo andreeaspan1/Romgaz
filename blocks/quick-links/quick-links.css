@@ -1,0 +1,38 @@
+.quick-links .quick-links-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  font-family: Roboto, sans-serif;
+}
+
+.quick-links .quick-links-item {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 12px 18px;
+  background-color: #f2f4f7;
+  border-left: 3px solid #3aa9d4;
+  color: #16233f;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.quick-links .quick-links-item:hover {
+  background-color: #16233f;
+  border-left-color: #16233f;
+  color: #fff;
+}
+
+@media (width >= 600px) {
+  .quick-links .quick-links-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (width >= 900px) {
+  .quick-links .quick-links-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
