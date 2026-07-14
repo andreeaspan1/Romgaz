@@ -8,7 +8,7 @@ footer {
 footer .footer-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 24px 24px;
+  padding: 28px 24px;
 }
 
 footer .footer-columns {
@@ -54,9 +54,8 @@ footer .footer-column ul li {
 }
 
 footer .footer-copyright {
-  margin-top: 32px;
-  padding-top: 16px;
-  border-top: 1px solid rgb(255 255 255 / 15%);
+  margin-top: 0;
+  padding-top: 0;
 }
 
 footer .footer-copyright p {
@@ -66,7 +65,7 @@ footer .footer-copyright p {
 
 @media (width >= 900px) {
   footer .footer-inner {
-    padding: 40px 32px 24px;
+    padding: 28px 32px;
   }
 
   footer .footer-columns {
